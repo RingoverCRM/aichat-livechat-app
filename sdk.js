@@ -75,4 +75,4 @@ class AIChatSDK {
   }
 }
 
-window.CustomerSupportSDK = AIChatSDK;
+window.AIChatSDK = AIChatSDK;
