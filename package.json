@@ -1,0 +1,18 @@
+{
+  "name": "ai-chat-livechat-sdk",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "minify": "uglifyjs sdk.js --compress --mangle --warn --output sdk.min.js && npm run version:add",
+    "production": "npm run version:bump --silent && rm -f sdk.min.js && npm run minify",
+    "version:add": "echo \"/*! Ringover AI Chat SDK v$(npm run version:extract --silent) Build time: $(date '+%m-%d-%Y %H:%M:%S') */\n$(cat sdk.min.js)\" > sdk.min.js",
+    "version:bump": "npm version patch --silent",
+    "version:extract": "cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]'"
+  },
+  "author": "Subhransu Dash",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "uglify-js": "^3.19.2"
+  }
+}
