@@ -59,16 +59,16 @@ class AIChatSDK {
 
   setStyles(options) {
     this.iframe.frameBorder = "0";
-    this.iframe.style.width = options?.width ?? "50px";
-    this.iframe.style.height = options?.height ?? "50px";
+    this.iframe.style.width = options?.bubbleSize || "50px";
+    this.iframe.style.height = options?.bubbleSize || "50px";
 
     this.iframe.style.border = "none";
     this.iframe.style.position = "fixed";
-    this.iframe.style.bottom = options?.bottom ?? "40px";
-    this.iframe.style.left = options?.left ?? null;
-    this.iframe.style.right = options?.right ?? "40px";
-    this.iframe.style.top = options?.top ?? null;
-    this.iframe.style.zIndex = options?.zIndex ?? 1000;
+    this.iframe.style.bottom = options?.bottom || "40px";
+    this.iframe.style.left = options?.left || null;
+    this.iframe.style.right = options?.right || "40px";
+    this.iframe.style.top = options?.top || null;
+    this.iframe.style.zIndex = options?.zIndex || 1000;
     this.iframe.style.borderRadius = "15px";
 
     this.sendMessage({ type: this.MESSAGE_TYPES.SET_STYLES, data: options });
