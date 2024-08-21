@@ -15,8 +15,8 @@ Using jsDelivr CDN:
 
 ```js
 // Initialise sdk
-// Pass Chatbot ID in the constructor
-const sdk = new AIChatSDK("<Chatbot ID>", options);
+// Pass AI Agent ID in the constructor
+const sdk = new AIChatSDK("<AI Agent ID>", options);
 ```
 
 Here is a complete list of available options with their default values:
@@ -27,9 +27,6 @@ Here is a complete list of available options with their default values:
     bottom: "40px",
     right: "40px",
     left: null,
-
-    // size of chatbot bubble
-    bubbleSize: "50px",
 }
 ```
 
