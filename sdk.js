@@ -2,6 +2,19 @@ function log(...objects) {
   if (window.origin.includes("localhost")) console.log(objects);
 }
 
+const ENV = {
+  PRODUCTION: "production",
+  STAGING: "staging",
+  DEV: "dev",
+};
+
+const IFRAME_SRC_MAP = {
+  [ENV.PRODUCTION]:
+    "https://ai-chat-livechat-dot-aichat-408808.ey.r.appspot.com",
+  [ENV.STAGING]: "https://ai-chat-livechat-dot-aichat-408808.ey.r.appspot.com",
+  [ENV.DEV]: "https://ai-chat-livechat-dev-dot-aichat-408808.ey.r.appspot.com",
+};
+
 class AIChatSDK {
   isIframePresent = false;
   isReady = false;
@@ -21,8 +34,11 @@ class AIChatSDK {
     if (this.isIframePresent) return;
 
     const iframe = document.createElement("IFRAME");
-    const IFRAME_SRC =
-      "https://ai-chat-livechat-dot-aichat-408808.ey.r.appspot.com";
+
+    const env = options?.env || ENV.PRODUCTION;
+
+    const IFRAME_SRC = options?.iframe_url || IFRAME_SRC_MAP[env];
+
     iframe.src = `${IFRAME_SRC}?agent_id=${agentId}`;
     this.iframe = iframe;
     document.body.appendChild(this.iframe);
