@@ -23,6 +23,7 @@ class AIChatSDK {
     IS_READY: "is_ready",
     IS_CHATBOX_OPEN: "is_chatbox_open",
     SET_STYLES: "set_styles",
+    URL_CHANGED: "url_changed",
   };
 
   CLOSED_CHAT_WIDTH = "50px";
@@ -67,6 +68,7 @@ class AIChatSDK {
     };
 
     window.addEventListener("message", handleMessage);
+    this.trackUrlChanges();
   }
 
   sendMessage(data) {
@@ -88,6 +90,37 @@ class AIChatSDK {
     this.iframe.style.borderRadius = "15px";
 
     this.sendMessage({ type: this.MESSAGE_TYPES.SET_STYLES, data: options });
+  }
+
+  // New method to track URL changes
+  trackUrlChanges() {
+    const sendUrlToIframe = () => {
+      const currentUrl = window.location.href;
+      this.sendMessage({
+        type: this.MESSAGE_TYPES.URL_CHANGED,
+        url: currentUrl,
+      });
+    };
+
+    // Intercept pushState and replaceState
+    const originalPushState = history.pushState;
+    const originalReplaceState = history.replaceState;
+
+    history.pushState = (...args) => {
+      originalPushState.apply(history, args);
+      sendUrlToIframe();
+    };
+
+    history.replaceState = (...args) => {
+      originalReplaceState.apply(history, args);
+      sendUrlToIframe();
+    };
+
+    // Listen to back/forward navigation (popstate)
+    window.addEventListener("popstate", sendUrlToIframe);
+
+    // Send initial URL when SDK is loaded
+    sendUrlToIframe();
   }
 }
 
